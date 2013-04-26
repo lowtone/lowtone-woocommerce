@@ -1,6 +1,6 @@
 <?php
 namespace lowtone\woocommerce\products;
-use lowtone\wp\posts\Post;
+use lowtone\woocommerce\base\posts\Post;
 
 /**
  * @author Paul van der Meijs <code@lowtone.nl>
