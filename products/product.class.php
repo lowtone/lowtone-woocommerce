@@ -50,8 +50,14 @@ class Product extends Post {
 		PROPERTY_SHIPPING_CLASS_ID = "shipping_class_id",
 		PROPERTY_DIMENSIONS = "dimensions";
 
+	// Static
+
 	public static function __getDocumentClass() {
-		return "lowtone\\woocommerce\\products\\out\\ProductDocument";
+		return __NAMESPACE__ . "\\out\\ProductDocument";
+	}
+
+	public static function __getCollectionClass() {
+		return __NAMESPACE__ . "\\collections\\Collection";
 	}
 		
 }
