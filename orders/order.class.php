@@ -2,7 +2,8 @@
 namespace lowtone\woocommerce\orders;
 use WC_Order,
 	lowtone\db\records\Record,
-	lowtone\db\records\schemata\properties\Property;
+	lowtone\db\records\schemata\properties\types\DateTime as DateTimeProperty,
+	lowtone\db\records\schemata\properties\types\String as StringProperty;
 
 /**
  * @author Paul van der Meijs <code@lowtone.nl>
@@ -96,8 +97,8 @@ class Order extends Record {
 	}
 
 	private final function __setOrder($order) {
-		if ($input instanceof WC_Order)
-			$this->__itsOrder = $input;
+		if ($order instanceof WC_Order)
+			$this->__itsOrder = $order;
 
 		return $this;
 	}
@@ -105,12 +106,17 @@ class Order extends Record {
 	// Static
 	
 	public static function __createSchema($defaults = NULL) {
+		$dateTime = new DateTimeProperty();
+
 		return parent::__createSchema(array(
-				self::PROPERTY_ORDER_NUMBER => array(
-					Property::ATTRIBUTE_GET => function($value, $order) {
+				self::PROPERTY_ORDER_DATE => $dateTime,
+				self::PROPERTY_MODIFIED_DATE => $dateTime,
+				self::PROPERTY_COMPLETED_DATE => $dateTime,
+				self::PROPERTY_ORDER_NUMBER => new StringProperty(array(
+					StringProperty::ATTRIBUTE_GET => function($value, $order) {
 						return ($wcOrder = $order->__getOrder()) instanceof WC_Order ? $wcOrder->get_order_number() : NULL;
 					}
-				)
+				))
 			));
 	}
 
