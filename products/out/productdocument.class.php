@@ -16,7 +16,9 @@ class ProductDocument extends PostDocument {
 		if (false === parent::build($options))
 			return false;
 
-		$GLOBALS["product"] = get_product($GLOBALS["post"]);
+		global $product;
+
+		$product = get_product($GLOBALS["post"]);
 
 		$actionOutput = array();
 
@@ -25,7 +27,7 @@ class ProductDocument extends PostDocument {
 
 			$action = preg_replace("/^woocommerce_/", "", $action);
 
-			return $actions[$action] = Util::catchOutput(function() use ($args) {
+			return $actionOutput[$action] = Util::catchOutput(function() use ($args) {
 				call_user_func_array("do_action", $args);
 			});
 		};
@@ -40,7 +42,7 @@ class ProductDocument extends PostDocument {
 				),
 				"single" => array(
 					"woocommerce_before_single_product",
-					"woocommerce_before_shop_loop_item_title",
+					"woocommerce_before_single_product_summary",
 					"woocommerce_single_product_summary",
 					"woocommerce_after_single_product_summary",
 					"woocommerce_after_single_product"
@@ -58,13 +60,14 @@ class ProductDocument extends PostDocument {
 
 		$postElement = $this->documentElement;
 
-		$wooCommerceElement = $postElement->appendChild(
+		$wooCommerceElement = $postElement
+			->appendChild(
 				$this->createElementNs("http://wordpress.lowtone.nl/woocommerce", "wc:woocommerce")
 			)
 			->appendCreateElements(array(
-				"wc:price" => "Foo",
-				"wc:weight" => "Bar",
-				"wc:actions" => $actionOutput
+				"price" => $product->price,
+				"weight" => $product->weight,
+				"actions" => $actionOutput
 			));
 
 		return $this;
