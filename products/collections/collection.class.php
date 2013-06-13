@@ -1,11 +1,8 @@
 <?php
 namespace lowtone\woocommerce\products\collections;
-use lowtone\db\records\collections\Collection as Base;
-
+use lowtone\wp\posts\collections\Collection as Base;
 
 /**
- * @todo LibreDocument doesn't use custom Collection classes.
- * 
  * @author Paul van der Meijs <code@lowtone.nl>
  * @copyright Copyright (c) 2011-2012, Paul van der Meijs
  * @license http://wordpress.lowtone.nl/license/
@@ -21,7 +18,7 @@ class Collection extends Base {
 	}
 
 	public static function __getDocumentClass() {
-		return __NAMESPACE . "\\out\\CollectionDocument";
+		return __NAMESPACE__ . "\\out\\CollectionDocument";
 	}
 
 }
