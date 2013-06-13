@@ -16,9 +16,9 @@ class ProductDocument extends PostDocument {
 		if (false === parent::build($options))
 			return false;
 
-		global $product;
+		$this->itsObject->setupPostData();
 
-		$product = get_product($GLOBALS["post"]);
+		$_GLOBALS["product"] = $product = get_product($GLOBALS["post"]);
 
 		$actionOutput = array();
 

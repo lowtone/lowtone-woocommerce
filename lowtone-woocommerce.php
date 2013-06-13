@@ -11,7 +11,26 @@
 
 namespace lowtone\woocommerce {
 
-	use lowtone\Util;
+	use lowtone\content\packages\Package;
+
+	// Includes
+	
+	if (!include_once WP_PLUGIN_DIR . "/lowtone-content/lowtone-content.php") 
+		return trigger_error("Lowtone Content plugin is required", E_USER_ERROR) && false;
+
+	// Init
+
+	Package::init(array(
+			Package::INIT_PACKAGES => array("lowtone", "lowtone\\style"),
+			Package::INIT_MERGED_PATH => __NAMESPACE__,
+			Package::INIT_SUCCESS => function() {
+				add_action("woocommerce_init", function() {
+					products\Product::__registerPostClass("product", "lowtone\\woocommerce\\products\\Product");
+				});
+			}
+		));
+
+	/*use lowtone\Util;
 	
 	if (!class_exists("lowtone\\Lowtone"))
 		return;
@@ -20,7 +39,7 @@ namespace lowtone\woocommerce {
 
 	add_action("woocommerce_init", function() {
 		products\Product::__registerPostClass("product", "lowtone\\woocommerce\\products\\Product");
-	});
+	});*/
 
 	// Functions
 
