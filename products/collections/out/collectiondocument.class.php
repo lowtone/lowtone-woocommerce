@@ -41,20 +41,20 @@ class CollectionDocument extends Base {
 		};
 
 		$actions = array(
-				"both" => array(),
+				"both" => array(
+					"woocommerce_before_main_content",
+					"woocommerce_after_main_content"
+				),
 				"archive" => array(
 					"woocommerce_before_shop_loop",
 					"woocommerce_after_shop_loop",
 				),
-				"single" => array(
-					"woocommerce_before_main_content",
-					"woocommerce_after_main_content",
-				),
+				"single" => array(),
 			);
 
 		foreach (array("both", is_single() ? "single" : "archive") as $context) {
 
-			foreach ($actions[$context] as $action) 
+			foreach ($actions[$context] as $action)  
 				$addActionOutput($action);
 
 		}
@@ -68,6 +68,7 @@ class CollectionDocument extends Base {
 				$this->createElementNs("http://wordpress.lowtone.nl/woocommerce", "wc:woocommerce")
 			)
 			->appendCreateElements(array(
+				"page_title" => apply_filters("woocommerce_show_page_title", true) ? Util::catchOutput("woocommerce_page_title") : NULL,
 				"columns" => $columns,
 				"product_class" => implode(" ", array(
 					Grid::translateWidth("1/{$columns}"),
