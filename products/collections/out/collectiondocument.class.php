@@ -46,6 +46,7 @@ class CollectionDocument extends Base {
 					"woocommerce_after_main_content"
 				),
 				"archive" => array(
+					"woocommerce_archive_description",
 					"woocommerce_before_shop_loop",
 					"woocommerce_after_shop_loop",
 				),
